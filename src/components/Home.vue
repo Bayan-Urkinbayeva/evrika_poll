@@ -1,8 +1,8 @@
 <template>
   <div :class="{ active: isActive }" id="home">
-    <Header/>
+    <Header />
     <div class="img">
-      <img src="../assets/quiz.png">
+      <img src="../assets/quiz.png" />
     </div>
     <div class="form">
       <div class="quiz_content">
@@ -13,8 +13,11 @@
           idYes="radio_1"
           idNo="radio_2"
           @makeYes="was_bought = true"
-          @makeNo="was_bought = false">
-        <p class="visible" v-if="errors[0]=='Error'">Это поле обязательное</p> 
+          @makeNo="was_bought = false"
+        >
+          <p class="visible" v-if="errors[0] == 'Error'">
+            Это поле обязательное
+          </p>
         </booleanQuiz>
         <booleanQuiz
           question="Хотели бы Вы вернуться к нам повторно?"
@@ -23,44 +26,57 @@
           @makeYes="will_return = true"
           @makeNo="will_return = false"
           idYes="radio_3"
-          idNo="radio_4">
-        <p class="visible" v-if="errors[1]=='Error'">Это поле обязательное</p> 
+          idNo="radio_4"
+        >
+          <p class="visible" v-if="errors[1] == 'Error'">
+            Это поле обязательное
+          </p>
         </booleanQuiz>
         <Quiz
           question="Оцените работу продавца-консультанта:"
           name="radio_3"
           v-bind="seller_score"
           @changeValue="setSellerScore"
-          idChoose="radio_seller">
-        <p class="visible" v-if="errors[2]=='Error'">Это поле обязательное</p> 
+          idChoose="radio_seller"
+        >
+          <p class="visible" v-if="errors[2] == 'Error'">
+            Это поле обязательное
+          </p>
         </Quiz>
         <Quiz
           question="Оцените работу кассира:"
           name="radio_4"
           v-bind="cashier_score"
           @changeValue="setCashierScore"
-          idChoose="radio_cashier">
-        <p class="visible" v-if="errors[3]=='Error'">Это поле обязательное</p> 
+          idChoose="radio_cashier"
+        >
+          <p class="visible" v-if="errors[3] == 'Error'">
+            Это поле обязательное
+          </p>
         </Quiz>
         <Quiz
           question="Насколько Вам приятно рекомендовать нашу компанию своим друзьям или знакомым?"
           name="radio_5"
           v-bind="recommendation_score"
           @changeValue="setRecommendationScore"
-          idChoose="radio_rec">
-        <p class="visible" v-if="errors[4]=='Error'">Это поле обязательное</p> 
+          idChoose="radio_rec"
+        >
+          <p class="visible" v-if="errors[4] == 'Error'">
+            Это поле обязательное
+          </p>
         </Quiz>
         <div class="quiz q6">
           <div class="question">
             <h1>Пожалуйста, оставьте краткий отзыв или ваш комментарий :</h1>
-            <p class="visible" v-if="errors[5]=='Error'">
+            <p class="visible" v-if="errors[5] == 'Error'">
               Данное поле не должно быть меньше 3 слов
             </p>
           </div>
           <div class="input">
             <textarea
               v-model="comment"
-              placeholder="Пожалуйста,оставьте краткий отзыв или ваш комментарий: "></textarea>
+              placeholder="Пожалуйста,оставьте краткий отзыв или ваш комментарий: "
+            ></textarea>
           </div>
         </div>
         <div class="quiz_button">
@@ -73,7 +89,9 @@
     <div class="modal_checked">
       <i class="far fa-check-circle"></i>
       <p>Спасибо за отзыв!</p>
-      <a href="https://evrika.com"><button @click="closeModal">Закрыть</button></a>
+      <a href="https://evrika.com"
+        ><button @click="closeModal">Закрыть</button></a
+      >
     </div>
   </div>
 </template>
@@ -81,13 +99,13 @@
 import axios from "axios";
 import booleanQuiz from "./booleanQuiz.vue";
 import Quiz from "./Quiz.vue";
-import Header from "./Header.vue"
+import Header from "./Header.vue";
 export default {
   name: "Home",
   components: {
     booleanQuiz,
     Quiz,
-    Header
+    Header,
   },
   data() {
     return {
@@ -104,9 +122,20 @@ export default {
   },
   methods: {
     async sendComment() {
-       this.errors = [this.isBoolean(this.was_bought),this.isBoolean(this.will_return), this.isChoosen(this.seller_score),this.isChoosen(this.cashier_score), this.isChoosen(this.recommendation_score),this.checkComment(this.comment)]
+      this.errors = [
+        this.isBoolean(this.was_bought),
+        this.isBoolean(this.will_return),
+        this.isChoosen(this.seller_score),
+        this.isChoosen(this.cashier_score),
+        this.isChoosen(this.recommendation_score),
+        this.checkComment(this.comment),
+      ];
       if (
-        this.was_bought != null && this.will_return != null && this.seller_score != null && this.cashier_score != null && this.recommendation_score != null &&
+        this.was_bought != null &&
+        this.will_return != null &&
+        this.seller_score != null &&
+        this.cashier_score != null &&
+        this.recommendation_score != null &&
         (this.comment == "" ||
           (this.comment.length >= 3 && this.comment.length <= 500))
       ) {
@@ -131,9 +160,9 @@ export default {
           } else {
             window.location.href = "https://evrika.com";
           }
-        })
+        });
     },
-    
+
     getUrl() {
       let arr = window.location.pathname;
       let hash = arr.pop();
@@ -144,14 +173,14 @@ export default {
       return (this.seller_score = score);
     },
 
-    setCashierScore(score){
-      return (this.cashier_score = score)
+    setCashierScore(score) {
+      return (this.cashier_score = score);
     },
 
-    setRecommendationScore(score){
-      return (this.recommendation_score = score)
+    setRecommendationScore(score) {
+      return (this.recommendation_score = score);
     },
-        isChoosen(value) {
+    isChoosen(value) {
       return !value ? "Error" : null;
     },
 
@@ -162,15 +191,15 @@ export default {
         return null;
       }
     },
-    isBoolean(value){
-      if(typeof value === 'boolean'){
-        return null
+    isBoolean(value) {
+      if (typeof value === "boolean") {
+        return null;
+      } else {
+        return "Error";
       }
-      else{
-        return "Error"
-      }
-    }
+    },
   },
+  //
   //   created() {
   //     this.getUrl();
   //   },
